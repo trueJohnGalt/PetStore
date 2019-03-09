@@ -1,10 +1,10 @@
 package endpoints;
 
-import com.jayway.restassured.RestAssured;
-import com.jayway.restassured.http.ContentType;
-import com.jayway.restassured.response.Response;
-import com.jayway.restassured.specification.RequestSpecification;
 import configs.Config;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import models.pet.Pet;
 
 
@@ -14,15 +14,14 @@ public class PetStoreEndPoints {
     private RequestSpecification given() {
         return RestAssured
                 .given()
-                .log().path()
-                .log().body()
+                .log().all()
                 .baseUri(Config.BASE_URI)
                 .contentType(ContentType.JSON);
     }
 
-    public Response getPetById(String Id) {
+    public Response getPetById(String id) {
         return given()
-                .pathParam("petId","22")
+                .pathParam("petId",id)
                 .when()
                 .get(Config.PET_BY_ID)
                 .then()

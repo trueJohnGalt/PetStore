@@ -1,14 +1,14 @@
 package tests;
 
-import com.jayway.restassured.response.Response;
 import endpoints.PetStoreOrdersEndPoints;
+import io.restassured.response.Response;
 import models.order.Order;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
 
 public class PetStoreOrdersTests {
 
-    public static final PetStoreOrdersEndPoints PET_STORE_ORDERS_END_POINTS = new PetStoreOrdersEndPoints();
+    private static final PetStoreOrdersEndPoints PET_STORE_ORDERS_END_POINTS = new PetStoreOrdersEndPoints();
 
     @Test
     public void createOrder(){
@@ -21,11 +21,12 @@ public class PetStoreOrdersTests {
         Order createdOrderFromService = PET_STORE_ORDERS_END_POINTS.getStoreOrderById(createdOrderId).as(Order.class);
 
         SoftAssertions assertions = new SoftAssertions();
-        assertions.assertThat(orderFromResponse.getStatusCode()).isEqualTo(200);
         assertions.assertThat(createdOrderFromService.getPetId()).isEqualTo(order.getPetId());
         assertions.assertThat(createdOrderFromService.getQuantity()).isEqualTo(order.getQuantity());
         assertions.assertThat(createdOrderFromService.getStatus()).isEqualTo(order.getStatus());
         assertions.assertThat(createdOrderFromService.isComplete()).isEqualTo(order.isComplete());
+        assertions.assertThat(orderFromResponse.getStatusCode()).isEqualTo(200);
+        assertions.assertAll();
     }
 
     @Test
@@ -44,6 +45,7 @@ public class PetStoreOrdersTests {
         assertions.assertThat(createdOrderFromService.getQuantity()).isEqualTo(order.getQuantity());
         assertions.assertThat(createdOrderFromService.getStatus()).isEqualTo(order.getStatus());
         assertions.assertThat(createdOrderFromService.isComplete()).isEqualTo(order.isComplete());
+        assertions.assertAll();
     }
 
     @Test
@@ -58,5 +60,6 @@ public class PetStoreOrdersTests {
         Response orderById = PET_STORE_ORDERS_END_POINTS.getStoreOrderById(createdOrderId);
         SoftAssertions assertions = new SoftAssertions();
         assertions.assertThat(orderById.getStatusCode()).isEqualTo(404);
+        assertions.assertAll();
     }
 }

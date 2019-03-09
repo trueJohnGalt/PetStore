@@ -1,10 +1,10 @@
 package endpoints;
 
-import com.jayway.restassured.RestAssured;
-import com.jayway.restassured.http.ContentType;
-import com.jayway.restassured.response.Response;
-import com.jayway.restassured.specification.RequestSpecification;
 import configs.Config;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import models.order.Order;
 
 public class PetStoreOrdersEndPoints {
@@ -12,8 +12,7 @@ public class PetStoreOrdersEndPoints {
     private RequestSpecification given() {
         return RestAssured
                 .given()
-                .log().path()
-                .log().body()
+                .log().all()
                 .baseUri(Config.BASE_URI)
                 .contentType(ContentType.JSON);
     }
@@ -21,36 +20,27 @@ public class PetStoreOrdersEndPoints {
     public Response getStoreOrders() {
         return given()
                 .when()
-                .get(Config.GET_INVENTORY)
-                .then()
-                .extract()
-                .response();
+                .get(Config.GET_INVENTORY);
     }
 
     public Response getStoreOrderById(int id) {
         return given()
                 .when()
                 .pathParam("orderId", id)
-                .get(Config.GET_INVENTORY_BY_ORDER_ID)
-                .then()
-                .extract().response();
+                .get(Config.GET_INVENTORY_BY_ORDER_ID);
     }
 
     public Response deleteStoreOrderById(int id) {
         return given()
                 .when()
                 .pathParam("orderId", id)
-                .delete(Config.GET_INVENTORY_BY_ORDER_ID)
-                .then()
-                .extract().response();
+                .delete(Config.GET_INVENTORY_BY_ORDER_ID);
     }
 
     public Response createOrder(Order order) {
         return given()
                 .body(order)
                 .when()
-                .post(Config.CREATE_ORDER)
-                .then()
-                .extract().response();
+                .post(Config.CREATE_ORDER);
     }
 }
