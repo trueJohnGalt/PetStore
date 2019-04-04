@@ -1,0 +1,62 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": "object",
+  "title": "The Root Schema",
+  "required": [
+    "id",
+    "petId",
+    "quantity",
+    "status",
+    "complete"
+  ],
+  "properties": {
+    "id": {
+      "$id": "#/properties/id",
+      "type": "integer",
+      "title": "The Id Schema",
+      "default": 0,
+      "examples": [
+        754
+      ]
+    },
+    "petId": {
+      "$id": "#/properties/petId",
+      "type": "integer",
+      "title": "The Petid Schema",
+      "default": 0,
+      "examples": [
+        2
+      ]
+    },
+    "quantity": {
+      "$id": "#/properties/quantity",
+      "type": "integer",
+      "title": "The Quantity Schema",
+      "default": 0,
+      "examples": [
+        1
+      ]
+    },
+    "status": {
+      "$id": "#/properties/status",
+      "type": "string",
+      "title": "The Status Schema",
+      "default": "",
+      "examples": [
+        "delivered"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "complete": {
+      "$id": "#/properties/complete",
+      "type": "boolean",
+      "title": "The Complete Schema",
+      "default": false,
+      "examples": [
+        false
+      ]
+    }
+  }
+}

@@ -1,21 +1,13 @@
 package endpoints;
 
 import configs.Config;
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 import models.order.Order;
 
-public class PetStoreOrdersEndPoints {
+import static io.restassured.RestAssured.given;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
-    private RequestSpecification given() {
-        return RestAssured
-                .given()
-                .log().all()
-                .baseUri(Config.BASE_URI)
-                .contentType(ContentType.JSON);
-    }
+public class PetStoreOrdersEndPoints {
 
     public Response getStoreOrders() {
         return given()
@@ -42,5 +34,11 @@ public class PetStoreOrdersEndPoints {
                 .body(order)
                 .when()
                 .post(Config.CREATE_ORDER);
+    }
+
+    public void assertJsonSchema(Response response, String path) {
+        response
+                .then()
+                .body(matchesJsonSchemaInClasspath(path));
     }
 }

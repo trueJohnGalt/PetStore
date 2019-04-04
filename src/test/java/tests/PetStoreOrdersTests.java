@@ -4,9 +4,10 @@ import endpoints.PetStoreOrdersEndPoints;
 import io.restassured.response.Response;
 import models.order.Order;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
-public class PetStoreOrdersTests {
+
+public class PetStoreOrdersTests extends BaseTest {
 
     private static final PetStoreOrdersEndPoints PET_STORE_ORDERS_END_POINTS = new PetStoreOrdersEndPoints();
 
@@ -36,15 +37,17 @@ public class PetStoreOrdersTests {
         Response orderFromResponse = PET_STORE_ORDERS_END_POINTS.createOrder(order);
         int createdOrderId = orderFromResponse.body().as(Order.class).getId();
         //when
-        Order createdOrderFromService = PET_STORE_ORDERS_END_POINTS.getStoreOrderById(createdOrderId).as(Order.class);
+        Response createdOrderFromService = PET_STORE_ORDERS_END_POINTS.getStoreOrderById(createdOrderId);
+        Order createdOrderFromServiceObject = createdOrderFromService.as(Order.class);
         //then
 
         SoftAssertions assertions = new SoftAssertions();
         assertions.assertThat(orderFromResponse.getStatusCode()).isEqualTo(200);
-        assertions.assertThat(createdOrderFromService.getPetId()).isEqualTo(order.getPetId());
-        assertions.assertThat(createdOrderFromService.getQuantity()).isEqualTo(order.getQuantity());
-        assertions.assertThat(createdOrderFromService.getStatus()).isEqualTo(order.getStatus());
-        assertions.assertThat(createdOrderFromService.isComplete()).isEqualTo(order.isComplete());
+        assertions.assertThat(createdOrderFromServiceObject.getPetId()).isEqualTo(order.getPetId());
+        assertions.assertThat(createdOrderFromServiceObject.getQuantity()).isEqualTo(order.getQuantity());
+        assertions.assertThat(createdOrderFromServiceObject.getStatus()).isEqualTo(order.getStatus());
+        assertions.assertThat(createdOrderFromServiceObject.isComplete()).isEqualTo(order.isComplete());
+        PET_STORE_ORDERS_END_POINTS.assertJsonSchema(createdOrderFromService, JSON_SCHEMA);
         assertions.assertAll();
     }
 
