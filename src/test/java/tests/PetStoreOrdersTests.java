@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 public class PetStoreOrdersTests extends BaseTest {
 
     private static final PetStoreOrdersEndPoints PET_STORE_ORDERS_END_POINTS = new PetStoreOrdersEndPoints();
+    private static final String JSON_SCHEMA = "json_schema/order_schema.json";
 
     @Test
     public void createOrder(){

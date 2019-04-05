@@ -1,4 +1,4 @@
-package configs;
+package logging;
 
 import org.slf4j.Logger;
 

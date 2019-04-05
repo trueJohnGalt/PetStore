@@ -1,7 +1,6 @@
 package tests;
 
-import configs.Config;
-import configs.ToLoggerPrintStream;
+import logging.ToLoggerPrintStream;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.config.LogConfig;
@@ -13,15 +12,15 @@ import io.restassured.http.ContentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.BeforeSuite;
+import properties.PropertiesController;
 
 import static io.restassured.config.EncoderConfig.encoderConfig;
 
 
 public class BaseTest {
 
-    private static final String BASE_URI = Config.BASE_URI;
-    private static final String BASE_PATH = Config.BASE_PATH;
-    public static final String JSON_SCHEMA = "json_schema/order_schema.json";
+    private static final String BASE_URI = PropertiesController.getProperty("petstore.base.url");
+    private static final String BASE_PATH = PropertiesController.getProperty("petstore.base.path");
 
     @BeforeSuite
     public void before() {
