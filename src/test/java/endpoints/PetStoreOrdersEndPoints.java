@@ -12,6 +12,7 @@ public class PetStoreOrdersEndPoints {
     private static final String GET_INVENTORY = PropertiesController.getProperty("petstore.get.inventory");
     private static final String GET_INVENTORY_BY_ORDER_ID = PropertiesController.getProperty("petstore.get.inventory.by.id");
     private static final String CREATE_ORDER = PropertiesController.getProperty("petstore.create.order");
+    private static final String JSON_SCHEMA = "json_schema/order_schema.json";
 
     public Response getStoreOrders() {
         return given()
@@ -34,15 +35,16 @@ public class PetStoreOrdersEndPoints {
     }
 
     public Response createOrder(Order order) {
-        return given()
+        Response response = given()
                 .body(order)
                 .when()
                 .post(CREATE_ORDER);
-    }
 
-    public void assertJsonSchema(Response response, String path) {
         response
                 .then()
-                .body(matchesJsonSchemaInClasspath(path));
+                .assertThat()
+                .body(matchesJsonSchemaInClasspath(JSON_SCHEMA));
+
+        return response;
     }
 }

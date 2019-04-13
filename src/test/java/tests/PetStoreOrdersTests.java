@@ -10,7 +10,6 @@ import org.testng.annotations.Test;
 public class PetStoreOrdersTests extends BaseTest {
 
     private static final PetStoreOrdersEndPoints PET_STORE_ORDERS_END_POINTS = new PetStoreOrdersEndPoints();
-    private static final String JSON_SCHEMA = "json_schema/order_schema.json";
 
     @Test
     public void createOrder(){
@@ -38,8 +37,7 @@ public class PetStoreOrdersTests extends BaseTest {
         Response orderFromResponse = PET_STORE_ORDERS_END_POINTS.createOrder(order);
         int createdOrderId = orderFromResponse.body().as(Order.class).getId();
         //when
-        Response createdOrderFromService = PET_STORE_ORDERS_END_POINTS.getStoreOrderById(createdOrderId);
-        Order createdOrderFromServiceObject = createdOrderFromService.as(Order.class);
+        Order createdOrderFromServiceObject = PET_STORE_ORDERS_END_POINTS.getStoreOrderById(createdOrderId).as(Order.class);
         //then
 
         SoftAssertions assertions = new SoftAssertions();
@@ -48,7 +46,6 @@ public class PetStoreOrdersTests extends BaseTest {
         assertions.assertThat(createdOrderFromServiceObject.getQuantity()).isEqualTo(order.getQuantity());
         assertions.assertThat(createdOrderFromServiceObject.getStatus()).isEqualTo(order.getStatus());
         assertions.assertThat(createdOrderFromServiceObject.isComplete()).isEqualTo(order.isComplete());
-        PET_STORE_ORDERS_END_POINTS.assertJsonSchema(createdOrderFromService, JSON_SCHEMA);
         assertions.assertAll();
     }
 
