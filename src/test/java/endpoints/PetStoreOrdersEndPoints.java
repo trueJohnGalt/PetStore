@@ -4,6 +4,9 @@ import io.restassured.response.Response;
 import models.order.Order;
 import properties.PropertiesController;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.lessThan;
+
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
@@ -43,8 +46,16 @@ public class PetStoreOrdersEndPoints {
         response
                 .then()
                 .assertThat()
-                .body(matchesJsonSchemaInClasspath(JSON_SCHEMA));
+                .body(matchesJsonSchemaInClasspath(JSON_SCHEMA))
+                .body("petId", equalTo(order.getPetId()));
 
         return response;
+    }
+
+    public void verifyResponseTime (Response response, long expectedResponseTime) {
+        response
+                .then()
+                .assertThat()
+                .time(lessThan(expectedResponseTime));
     }
 }

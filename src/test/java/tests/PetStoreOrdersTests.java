@@ -63,4 +63,16 @@ public class PetStoreOrdersTests extends BaseTest {
         assertions.assertThat(orderById.getStatusCode()).isEqualTo(404);
         assertions.assertAll();
     }
+
+    @Test
+    public void verifyGetResponseTime() {
+        //given
+        Order order = Order.createDefaultOrder();
+        Response orderFromResponse = PET_STORE_ORDERS_END_POINTS.createOrder(order);
+        int createdOrderId = orderFromResponse.body().as(Order.class).getId();
+        //when
+        Response createdOrderFromServiceObject = PET_STORE_ORDERS_END_POINTS.getStoreOrderById(createdOrderId);
+        //then
+        PET_STORE_ORDERS_END_POINTS.verifyResponseTime(createdOrderFromServiceObject, 1000L);
+    }
 }
